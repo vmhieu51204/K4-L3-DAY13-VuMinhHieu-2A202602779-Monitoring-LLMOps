@@ -40,3 +40,10 @@ def tracing_enabled() -> bool:
     return LANGFUSE_SDK_AVAILABLE and bool(
         os.getenv("LANGFUSE_PUBLIC_KEY") and os.getenv("LANGFUSE_SECRET_KEY")
     )
+
+
+def flush_traces() -> None:
+    if tracing_enabled():
+        client = get_langfuse_client()
+        if hasattr(client, "flush"):
+            client.flush()
